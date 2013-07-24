@@ -81,8 +81,8 @@ OBJDIR = .
 
 # List C source files here. (C dependencies are automatically generated.)
 SRC = main.c
-#SRC += step.c
-
+SRC += adc.c
+SRC += uart.c
 
 # List C++ source files here. (C dependencies are automatically generated.)
 CPPSRC = 

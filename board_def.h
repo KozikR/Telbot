@@ -10,9 +10,9 @@ Board definitions
 
 #define LED_PORT 	PORTC
 #define LED_DDR		DDRC
-#define LED_GREEN	0x04
-#define	LED_RED		0x08
-#define	LED_BLUE	0x10
+#define LED_GREEN	0x10
+#define	LED_RED		0x04
+#define	LED_BLUE	0x08
 
 /*Motors*/
 
@@ -35,7 +35,7 @@ Board definitions
 
 /*ADC*/
 #define	POWER			0
-#define	GROUND_FRONT	1
-#define	GROUND_BACK		5
+#define	GROUND_FRONT	5
+#define	GROUND_BACK		1
 
 #endif //board_def_h
