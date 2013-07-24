@@ -1,0 +1,132 @@
+   1               		.file	"main.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+  15               	.Ltext0:
+  16               	.global	__vector_18
+  18               	__vector_18:
+  19               	.LFB6:
+  20               	.LM1:
+  21 0000 1F92      		push __zero_reg__
+  22 0002 0F92      		push r0
+  23 0004 0FB6      		in r0,__SREG__
+  24 0006 0F92      		push r0
+  25 0008 1124      		clr __zero_reg__
+  26 000a 8F93      		push r24
+  27               	/* prologue: Signal */
+  28               	/* frame size = 0 */
+  29               	.LM2:
+  30               	/* #APP */
+  31               	 ;  18 "main.c" 1
+  32 000c F894      		cli
+  33               	 ;  0 "" 2
+  34               	.LM3:
+  35               	/* #NOAPP */
+  36 000e 8091 C600 		lds r24,198
+  37               	.LVL0:
+  38               	.LM4:
+  39               	/* #APP */
+  40               	 ;  20 "main.c" 1
+  41 0012 7894      		sei
+  42               	 ;  0 "" 2
+  43               	/* epilogue start */
+  44               	.LM5:
+  45               	/* #NOAPP */
+  46 0014 8F91      		pop r24
+  47               	.LVL1:
+  48 0016 0F90      		pop r0
+  49 0018 0FBE      		out __SREG__,r0
+  50 001a 0F90      		pop r0
+  51 001c 1F90      		pop __zero_reg__
+  52 001e 1895      		reti
+  53               	.LFE6:
+  55               	.global	main
+  57               	main:
+  58               	.LFB7:
+  59               	.LM6:
+  60               	/* prologue: function */
+  61               	/* frame size = 0 */
+  62               	.LM7:
+  63 0020 87B1      		in r24,39-32
+  64 0022 8C61      		ori r24,lo8(28)
+  65 0024 87B9      		out 39-32,r24
+  66               	.LM8:
+  67 0026 84B1      		in r24,36-32
+  68 0028 806C      		ori r24,lo8(-64)
+  69 002a 84B9      		out 36-32,r24
+  70               	.LM9:
+  71 002c 209A      		sbi 36-32,0
+  72               	.LM10:
+  73 002e 579A      		sbi 42-32,7
+  74               	.LM11:
+  75 0030 8AB1      		in r24,42-32
+  76 0032 8066      		ori r24,lo8(96)
+  77 0034 8AB9      		out 42-32,r24
+  78               	.LM12:
+  79 0036 83E3      		ldi r24,lo8(51)
+  80 0038 90E0      		ldi r25,hi8(51)
+  81 003a 9093 C500 		sts (196)+1,r25
+  82 003e 8093 C400 		sts 196,r24
+  83               	.LM13:
+  84 0042 88E9      		ldi r24,lo8(-104)
+  85 0044 8093 C100 		sts 193,r24
+  86               	.LBB12:
+  87               	.LBB13:
+  88               	.LBB14:
+  89               	.LBB15:
+  90               	.LM14:
+  91 0048 28EC      		ldi r18,lo8(200)
+  92 004a 30E0      		ldi r19,hi8(200)
+  93               	.LVL2:
+  94               	.L5:
+  95               	.LBE15:
+  96               	.LBE14:
+  97               	.LBE13:
+  98               	.LBE12:
+  99               	.LM15:
+ 100 004c 88B1      		in r24,40-32
+ 101               	.LVL3:
+ 102 004e 8095      		com r24
+ 103 0050 88B9      		out 40-32,r24
+ 104 0052 80ED      		ldi r24,lo8(2000)
+ 105 0054 97E0      		ldi r25,hi8(2000)
+ 106               	.LVL4:
+ 107               	.L4:
+ 108               	.LBB19:
+ 109               	.LBB18:
+ 110               	.LBB17:
+ 111               	.LBB16:
+ 112               	.LM16:
+ 113 0056 F901      		movw r30,r18
+ 114               	/* #APP */
+ 115               	 ;  105 "c:/winavr-20100110/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 116 0058 3197      		1: sbiw r30,1
+ 117 005a 01F4      		brne 1b
+ 118               	 ;  0 "" 2
+ 119               	/* #NOAPP */
+ 120               	.LBE16:
+ 121               	.LBE17:
+ 122               	.LM17:
+ 123 005c 0197      		sbiw r24,1
+ 124               	.LM18:
+ 125 005e 01F4      		brne .L4
+ 126 0060 00C0      		rjmp .L5
+ 127               	.LBE18:
+ 128               	.LBE19:
+ 129               	.LFE7:
+ 163               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+C:\Users\RAFA~1\AppData\Local\Temp/ccmDRM0Y.s:2      *ABS*:0000003f __SREG__
+C:\Users\RAFA~1\AppData\Local\Temp/ccmDRM0Y.s:3      *ABS*:0000003e __SP_H__
+C:\Users\RAFA~1\AppData\Local\Temp/ccmDRM0Y.s:4      *ABS*:0000003d __SP_L__
+C:\Users\RAFA~1\AppData\Local\Temp/ccmDRM0Y.s:5      *ABS*:00000034 __CCP__
+C:\Users\RAFA~1\AppData\Local\Temp/ccmDRM0Y.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\RAFA~1\AppData\Local\Temp/ccmDRM0Y.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\RAFA~1\AppData\Local\Temp/ccmDRM0Y.s:18     .text:00000000 __vector_18
+C:\Users\RAFA~1\AppData\Local\Temp/ccmDRM0Y.s:57     .text:00000020 main
+
+NO UNDEFINED SYMBOLS
