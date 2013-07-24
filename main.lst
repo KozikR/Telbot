@@ -50,193 +50,202 @@
   58 003a 80E8      		ldi r24,lo8(-128)
   59 003c 8093 7A00 		sts 122,r24
   60               	.LM13:
-  61               	/* #APP */
-  62               	 ;  69 "main.c" 1
-  63 0040 7894      		sei
-  64               	 ;  0 "" 2
-  65               	.LM14:
-  66               	/* #NOAPP */
-  67 0042 48E0      		ldi r20,lo8(8)
-  68               	.LBB12:
-  69               	.LBB13:
-  70               	.LBB14:
-  71               	.LBB15:
-  72               	.LM15:
-  73 0044 28EC      		ldi r18,lo8(200)
-  74 0046 30E0      		ldi r19,hi8(200)
-  75               	.LVL0:
-  76               	.L3:
-  77               	.LBE15:
-  78               	.LBE14:
-  79               	.LBE13:
-  80               	.LBE12:
-  81               	.LM16:
-  82 0048 88B1      		in r24,40-32
-  83               	.LVL1:
-  84 004a 8427      		eor r24,r20
-  85 004c 88B9      		out 40-32,r24
-  86 004e 80ED      		ldi r24,lo8(2000)
-  87 0050 97E0      		ldi r25,hi8(2000)
-  88               	.LVL2:
-  89               	.L2:
-  90               	.LBB19:
-  91               	.LBB18:
-  92               	.LBB17:
-  93               	.LBB16:
-  94               	.LM17:
-  95 0052 F901      		movw r30,r18
-  96               	/* #APP */
-  97               	 ;  105 "c:/winavr-20100110/lib/gcc/../../avr/include/util/delay_basic.h" 1
-  98 0054 3197      		1: sbiw r30,1
-  99 0056 01F4      		brne 1b
- 100               	 ;  0 "" 2
- 101               	/* #NOAPP */
- 102               	.LBE16:
- 103               	.LBE17:
- 104               	.LM18:
- 105 0058 0197      		sbiw r24,1
- 106               	.LM19:
- 107 005a 01F4      		brne .L2
- 108 005c 00C0      		rjmp .L3
- 109               	.LBE18:
- 110               	.LBE19:
- 111               	.LFE7:
- 113               		.data
- 114               	.LC0:
- 115 0000 4652 4F4E 		.string	"FRONT:"
- 115      543A 00
- 116               	.LC1:
- 117 0007 4241 434B 		.string	"BACK:"
- 117      3A00 
- 118               	.LC2:
- 119 000d 504F 5745 		.string	"POWER:"
- 119      523A 00
- 120               		.text
- 121               	.global	__vector_18
- 123               	__vector_18:
- 124               	.LFB6:
- 125               	.LM20:
- 126 005e 1F92      		push __zero_reg__
- 127 0060 0F92      		push r0
- 128 0062 0FB6      		in r0,__SREG__
- 129 0064 0F92      		push r0
- 130 0066 1124      		clr __zero_reg__
- 131 0068 2F93      		push r18
- 132 006a 3F93      		push r19
- 133 006c 4F93      		push r20
- 134 006e 5F93      		push r21
- 135 0070 6F93      		push r22
- 136 0072 7F93      		push r23
- 137 0074 8F93      		push r24
- 138 0076 9F93      		push r25
- 139 0078 AF93      		push r26
- 140 007a BF93      		push r27
- 141 007c EF93      		push r30
- 142 007e FF93      		push r31
- 143               	/* prologue: Signal */
- 144               	/* frame size = 0 */
- 145               	.LM21:
- 146               	/* #APP */
- 147               	 ;  25 "main.c" 1
- 148 0080 F894      		cli
- 149               	 ;  0 "" 2
- 150               	.LM22:
- 151               	/* #NOAPP */
- 152 0082 8091 C600 		lds r24,198
- 153               	.LVL3:
- 154               	.LM23:
- 155 0086 8133      		cpi r24,lo8(49)
- 156 0088 01F4      		brne .L7
- 157 008a 88B1      		in r24,40-32
- 158               	.LVL4:
- 159 008c 94E0      		ldi r25,lo8(4)
- 160 008e 8927      		eor r24,r25
- 161 0090 88B9      		out 40-32,r24
- 162 0092 00C0      		rjmp .L8
- 163               	.LVL5:
- 164               	.L7:
- 165               	.LM24:
- 166 0094 8233      		cpi r24,lo8(50)
- 167 0096 01F4      		brne .L8
- 168               	.LM25:
- 169 0098 80E0      		ldi r24,lo8(.LC0)
- 170 009a 90E0      		ldi r25,hi8(.LC0)
- 171               	.LVL6:
- 172 009c 00D0      		rcall send_string
- 173               	.LM26:
- 174 009e 85E0      		ldi r24,lo8(5)
- 175 00a0 00D0      		rcall get_ADC
- 176               	.LM27:
- 177 00a2 85E0      		ldi r24,lo8(5)
- 178 00a4 00D0      		rcall get_ADC
- 179 00a6 90E0      		ldi r25,lo8(0)
- 180 00a8 00D0      		rcall send_number
- 181               	.LM28:
- 182 00aa 80E0      		ldi r24,lo8(.LC1)
- 183 00ac 90E0      		ldi r25,hi8(.LC1)
- 184 00ae 00D0      		rcall send_string
- 185               	.LM29:
- 186 00b0 81E0      		ldi r24,lo8(1)
- 187 00b2 00D0      		rcall get_ADC
- 188               	.LM30:
- 189 00b4 81E0      		ldi r24,lo8(1)
- 190 00b6 00D0      		rcall get_ADC
- 191 00b8 90E0      		ldi r25,lo8(0)
- 192 00ba 00D0      		rcall send_number
- 193               	.LM31:
- 194 00bc 80E0      		ldi r24,lo8(.LC2)
- 195 00be 90E0      		ldi r25,hi8(.LC2)
- 196 00c0 00D0      		rcall send_string
- 197               	.LM32:
- 198 00c2 80E0      		ldi r24,lo8(0)
- 199 00c4 00D0      		rcall get_ADC
- 200               	.LM33:
- 201 00c6 80E0      		ldi r24,lo8(0)
- 202 00c8 00D0      		rcall get_ADC
- 203 00ca 90E0      		ldi r25,lo8(0)
- 204 00cc 00D0      		rcall send_number
- 205               	.LVL7:
- 206               	.L8:
- 207               	.LM34:
- 208               	/* #APP */
- 209               	 ;  40 "main.c" 1
- 210 00ce 7894      		sei
- 211               	 ;  0 "" 2
- 212               	/* epilogue start */
- 213               	.LM35:
- 214               	/* #NOAPP */
- 215 00d0 FF91      		pop r31
- 216 00d2 EF91      		pop r30
- 217 00d4 BF91      		pop r27
- 218 00d6 AF91      		pop r26
- 219 00d8 9F91      		pop r25
- 220 00da 8F91      		pop r24
- 221               	.LVL8:
- 222 00dc 7F91      		pop r23
- 223 00de 6F91      		pop r22
- 224 00e0 5F91      		pop r21
- 225 00e2 4F91      		pop r20
- 226 00e4 3F91      		pop r19
- 227 00e6 2F91      		pop r18
- 228 00e8 0F90      		pop r0
- 229 00ea 0FBE      		out __SREG__,r0
- 230 00ec 0F90      		pop r0
- 231 00ee 1F90      		pop __zero_reg__
- 232 00f0 1895      		reti
- 233               	.LFE6:
- 267               	.Letext0:
+  61 0040 83EA      		ldi r24,lo8(-93)
+  62 0042 84BD      		out 68-32,r24
+  63               	.LM14:
+  64 0044 82E0      		ldi r24,lo8(2)
+  65 0046 85BD      		out 69-32,r24
+  66               	.LM15:
+  67 0048 17BC      		out 71-32,__zero_reg__
+  68               	.LM16:
+  69 004a 18BC      		out 72-32,__zero_reg__
+  70               	.LM17:
+  71               	/* #APP */
+  72               	 ;  73 "main.c" 1
+  73 004c 7894      		sei
+  74               	 ;  0 "" 2
+  75               	.LM18:
+  76               	/* #NOAPP */
+  77 004e 81E0      		ldi r24,lo8(1)
+  78 0050 62E0      		ldi r22,lo8(2)
+  79 0052 48EC      		ldi r20,lo8(-56)
+  80 0054 00D0      		rcall motor
+  81               	.LM19:
+  82 0056 82E0      		ldi r24,lo8(2)
+  83 0058 62E0      		ldi r22,lo8(2)
+  84 005a 48EC      		ldi r20,lo8(-56)
+  85 005c 00D0      		rcall motor
+  86               	.LM20:
+  87 005e 48E0      		ldi r20,lo8(8)
+  88               	.LBB12:
+  89               	.LBB13:
+  90               	.LBB14:
+  91               	.LBB15:
+  92               	.LM21:
+  93 0060 28EC      		ldi r18,lo8(200)
+  94 0062 30E0      		ldi r19,hi8(200)
+  95               	.LVL0:
+  96               	.L3:
+  97               	.LBE15:
+  98               	.LBE14:
+  99               	.LBE13:
+ 100               	.LBE12:
+ 101               	.LM22:
+ 102 0064 88B1      		in r24,40-32
+ 103               	.LVL1:
+ 104 0066 8427      		eor r24,r20
+ 105 0068 88B9      		out 40-32,r24
+ 106 006a 80ED      		ldi r24,lo8(2000)
+ 107 006c 97E0      		ldi r25,hi8(2000)
+ 108               	.LVL2:
+ 109               	.L2:
+ 110               	.LBB19:
+ 111               	.LBB18:
+ 112               	.LBB17:
+ 113               	.LBB16:
+ 114               	.LM23:
+ 115 006e F901      		movw r30,r18
+ 116               	/* #APP */
+ 117               	 ;  105 "c:/winavr-20100110/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 118 0070 3197      		1: sbiw r30,1
+ 119 0072 01F4      		brne 1b
+ 120               	 ;  0 "" 2
+ 121               	/* #NOAPP */
+ 122               	.LBE16:
+ 123               	.LBE17:
+ 124               	.LM24:
+ 125 0074 0197      		sbiw r24,1
+ 126               	.LM25:
+ 127 0076 01F4      		brne .L2
+ 128 0078 00C0      		rjmp .L3
+ 129               	.LBE18:
+ 130               	.LBE19:
+ 131               	.LFE7:
+ 133               		.data
+ 134               	.LC0:
+ 135 0000 4652 4F4E 		.string	"FRONT:"
+ 135      543A 00
+ 136               	.LC1:
+ 137 0007 4241 434B 		.string	"BACK:"
+ 137      3A00 
+ 138               	.LC2:
+ 139 000d 504F 5745 		.string	"POWER:"
+ 139      523A 00
+ 140               		.text
+ 141               	.global	__vector_18
+ 143               	__vector_18:
+ 144               	.LFB6:
+ 145               	.LM26:
+ 146 007a 1F92      		push __zero_reg__
+ 147 007c 0F92      		push r0
+ 148 007e 0FB6      		in r0,__SREG__
+ 149 0080 0F92      		push r0
+ 150 0082 1124      		clr __zero_reg__
+ 151 0084 2F93      		push r18
+ 152 0086 3F93      		push r19
+ 153 0088 4F93      		push r20
+ 154 008a 5F93      		push r21
+ 155 008c 6F93      		push r22
+ 156 008e 7F93      		push r23
+ 157 0090 8F93      		push r24
+ 158 0092 9F93      		push r25
+ 159 0094 AF93      		push r26
+ 160 0096 BF93      		push r27
+ 161 0098 EF93      		push r30
+ 162 009a FF93      		push r31
+ 163               	/* prologue: Signal */
+ 164               	/* frame size = 0 */
+ 165               	.LM27:
+ 166               	/* #APP */
+ 167               	 ;  27 "main.c" 1
+ 168 009c F894      		cli
+ 169               	 ;  0 "" 2
+ 170               	.LM28:
+ 171               	/* #NOAPP */
+ 172 009e 8091 C600 		lds r24,198
+ 173               	.LVL3:
+ 174               	.LM29:
+ 175 00a2 8133      		cpi r24,lo8(49)
+ 176 00a4 01F4      		brne .L7
+ 177 00a6 88B1      		in r24,40-32
+ 178               	.LVL4:
+ 179 00a8 94E0      		ldi r25,lo8(4)
+ 180 00aa 8927      		eor r24,r25
+ 181 00ac 88B9      		out 40-32,r24
+ 182 00ae 00C0      		rjmp .L8
+ 183               	.LVL5:
+ 184               	.L7:
+ 185               	.LM30:
+ 186 00b0 8233      		cpi r24,lo8(50)
+ 187 00b2 01F4      		brne .L8
+ 188               	.LM31:
+ 189 00b4 80E0      		ldi r24,lo8(.LC0)
+ 190 00b6 90E0      		ldi r25,hi8(.LC0)
+ 191               	.LVL6:
+ 192 00b8 00D0      		rcall send_string
+ 193               	.LM32:
+ 194 00ba 85E0      		ldi r24,lo8(5)
+ 195 00bc 00D0      		rcall get_ADC
+ 196 00be 00D0      		rcall send_number
+ 197               	.LM33:
+ 198 00c0 80E0      		ldi r24,lo8(.LC1)
+ 199 00c2 90E0      		ldi r25,hi8(.LC1)
+ 200 00c4 00D0      		rcall send_string
+ 201               	.LM34:
+ 202 00c6 81E0      		ldi r24,lo8(1)
+ 203 00c8 00D0      		rcall get_ADC
+ 204 00ca 00D0      		rcall send_number
+ 205               	.LM35:
+ 206 00cc 80E0      		ldi r24,lo8(.LC2)
+ 207 00ce 90E0      		ldi r25,hi8(.LC2)
+ 208 00d0 00D0      		rcall send_string
+ 209               	.LM36:
+ 210 00d2 80E0      		ldi r24,lo8(0)
+ 211 00d4 00D0      		rcall get_ADC
+ 212 00d6 00D0      		rcall send_number
+ 213               	.LVL7:
+ 214               	.L8:
+ 215               	.LM37:
+ 216               	/* #APP */
+ 217               	 ;  39 "main.c" 1
+ 218 00d8 7894      		sei
+ 219               	 ;  0 "" 2
+ 220               	/* epilogue start */
+ 221               	.LM38:
+ 222               	/* #NOAPP */
+ 223 00da FF91      		pop r31
+ 224 00dc EF91      		pop r30
+ 225 00de BF91      		pop r27
+ 226 00e0 AF91      		pop r26
+ 227 00e2 9F91      		pop r25
+ 228 00e4 8F91      		pop r24
+ 229               	.LVL8:
+ 230 00e6 7F91      		pop r23
+ 231 00e8 6F91      		pop r22
+ 232 00ea 5F91      		pop r21
+ 233 00ec 4F91      		pop r20
+ 234 00ee 3F91      		pop r19
+ 235 00f0 2F91      		pop r18
+ 236 00f2 0F90      		pop r0
+ 237 00f4 0FBE      		out __SREG__,r0
+ 238 00f6 0F90      		pop r0
+ 239 00f8 1F90      		pop __zero_reg__
+ 240 00fa 1895      		reti
+ 241               	.LFE6:
+ 275               	.Letext0:
 DEFINED SYMBOLS
                             *ABS*:00000000 main.c
-C:\Users\RAFA~1\AppData\Local\Temp/ccfiaHTN.s:2      *ABS*:0000003f __SREG__
-C:\Users\RAFA~1\AppData\Local\Temp/ccfiaHTN.s:3      *ABS*:0000003e __SP_H__
-C:\Users\RAFA~1\AppData\Local\Temp/ccfiaHTN.s:4      *ABS*:0000003d __SP_L__
-C:\Users\RAFA~1\AppData\Local\Temp/ccfiaHTN.s:5      *ABS*:00000034 __CCP__
-C:\Users\RAFA~1\AppData\Local\Temp/ccfiaHTN.s:6      *ABS*:00000000 __tmp_reg__
-C:\Users\RAFA~1\AppData\Local\Temp/ccfiaHTN.s:7      *ABS*:00000001 __zero_reg__
-C:\Users\RAFA~1\AppData\Local\Temp/ccfiaHTN.s:18     .text:00000000 main
-C:\Users\RAFA~1\AppData\Local\Temp/ccfiaHTN.s:123    .text:0000005e __vector_18
+C:\Users\RAFA~1\AppData\Local\Temp/ccysAauf.s:2      *ABS*:0000003f __SREG__
+C:\Users\RAFA~1\AppData\Local\Temp/ccysAauf.s:3      *ABS*:0000003e __SP_H__
+C:\Users\RAFA~1\AppData\Local\Temp/ccysAauf.s:4      *ABS*:0000003d __SP_L__
+C:\Users\RAFA~1\AppData\Local\Temp/ccysAauf.s:5      *ABS*:00000034 __CCP__
+C:\Users\RAFA~1\AppData\Local\Temp/ccysAauf.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\RAFA~1\AppData\Local\Temp/ccysAauf.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\RAFA~1\AppData\Local\Temp/ccysAauf.s:18     .text:00000000 main
+C:\Users\RAFA~1\AppData\Local\Temp/ccysAauf.s:143    .text:0000007a __vector_18
 
 UNDEFINED SYMBOLS
+motor
 send_string
 get_ADC
 send_number

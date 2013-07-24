@@ -83,6 +83,7 @@ OBJDIR = .
 SRC = main.c
 SRC += adc.c
 SRC += uart.c
+SRC += motor.c
 
 # List C++ source files here. (C dependencies are automatically generated.)
 CPPSRC = 

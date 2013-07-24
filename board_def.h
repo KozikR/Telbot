@@ -15,7 +15,6 @@ Board definitions
 #define	LED_BLUE	0x08
 
 /*Motors*/
-
 #define M_LEFT_PORT PORTB
 #define M_LEFT_DDR	DDRB
 #define M_LEFT_1	0x40

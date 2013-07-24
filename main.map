@@ -25,6 +25,7 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4/crtm88
 LOAD main.o
 LOAD adc.o
 LOAD uart.o
+LOAD motor.o
 LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4\libm.a
 LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a
 LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4\libc.a
@@ -120,7 +121,7 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x21c
+.text           0x00000000      0x2a0
  *(.vectors)
  .vectors       0x00000000       0x34 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4/crtm88p.o
                 0x00000000                __vectors
@@ -199,28 +200,31 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a
                 0x0000005a                __vector_10
                 0x0000005a                __vector_16
                 0x0000005a                __vector_20
- .text          0x0000005c       0xf2 main.o
+ .text          0x0000005c       0xfc main.o
                 0x0000005c                main
-                0x000000ba                __vector_18
- .text          0x0000014e       0x36 adc.o
-                0x0000014e                get_ADC
- .text          0x00000184       0x7c uart.o
-                0x00000184                send_number
-                0x000001d8                send_string
- .text          0x00000200        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_udivmodqi4.o)
- .text          0x00000200        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_exit.o)
- .text          0x00000200        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_copy_data.o)
-                0x00000200                . = ALIGN (0x2)
+                0x000000d6                __vector_18
+ .text          0x00000158       0x52 adc.o
+                0x00000158                get_ADC
+ .text          0x000001aa       0x7c uart.o
+                0x000001aa                send_number
+                0x000001fe                send_string
+ .text          0x00000226       0x5e motor.o
+                0x00000226                motor
+                0x00000274                stop
+ .text          0x00000284        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_udivmodqi4.o)
+ .text          0x00000284        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_exit.o)
+ .text          0x00000284        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_copy_data.o)
+                0x00000284                . = ALIGN (0x2)
  *(.text.*)
- .text.libgcc   0x00000200       0x18 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_udivmodqi4.o)
-                0x00000200                __udivmodqi4
- .text.libgcc   0x00000218        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_exit.o)
- .text.libgcc   0x00000218        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_copy_data.o)
-                0x00000218                . = ALIGN (0x2)
+ .text.libgcc   0x00000284       0x18 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_udivmodqi4.o)
+                0x00000284                __udivmodqi4
+ .text.libgcc   0x0000029c        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_exit.o)
+ .text.libgcc   0x0000029c        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_copy_data.o)
+                0x0000029c                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00000218        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_exit.o)
-                0x00000218                exit
-                0x00000218                _exit
+ .fini9         0x0000029c        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_exit.o)
+                0x0000029c                exit
+                0x0000029c                _exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -239,17 +243,18 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00000218        0x4 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_exit.o)
+ .fini0         0x0000029c        0x4 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_exit.o)
  *(.fini0)
-                0x0000021c                _etext = .
+                0x000002a0                _etext = .
 
-.data           0x00800100       0x14 load address 0x0000021c
+.data           0x00800100       0x14 load address 0x000002a0
                 0x00800100                PROVIDE (__data_start, .)
  *(.data)
  .data          0x00800100        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4/crtm88p.o
  .data          0x00800100       0x14 main.o
  .data          0x00800114        0x0 adc.o
  .data          0x00800114        0x0 uart.o
+ .data          0x00800114        0x0 motor.o
  .data          0x00800114        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_udivmodqi4.o)
  .data          0x00800114        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_exit.o)
  .data          0x00800114        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_copy_data.o)
@@ -268,14 +273,15 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a
  .bss           0x00800114        0x0 main.o
  .bss           0x00800114        0x0 adc.o
  .bss           0x00800114        0x0 uart.o
+ .bss           0x00800114        0x0 motor.o
  .bss           0x00800114        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_udivmodqi4.o)
  .bss           0x00800114        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_exit.o)
  .bss           0x00800114        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_copy_data.o)
  *(.bss*)
  *(COMMON)
                 0x00800114                PROVIDE (__bss_end, .)
-                0x0000021c                __data_load_start = LOADADDR (.data)
-                0x00000230                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x000002a0                __data_load_start = LOADADDR (.data)
+                0x000002b4                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x00800114        0x0
                 0x00800114                PROVIDE (__noinit_start, .)
@@ -333,7 +339,7 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000       0x60
+.debug_aranges  0x00000000       0x80
  *(.debug_aranges)
  .debug_aranges
                 0x00000000       0x20 main.o
@@ -341,9 +347,11 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a
                 0x00000020       0x20 adc.o
  .debug_aranges
                 0x00000040       0x20 uart.o
+ .debug_aranges
+                0x00000060       0x20 motor.o
 
 .debug_pubnames
-                0x00000000       0x7b
+                0x00000000       0xa0
  *(.debug_pubnames)
  .debug_pubnames
                 0x00000000       0x2b main.o
@@ -351,33 +359,39 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a
                 0x0000002b       0x1e adc.o
  .debug_pubnames
                 0x00000049       0x32 uart.o
+ .debug_pubnames
+                0x0000007b       0x25 motor.o
 
-.debug_info     0x00000000      0x294
+.debug_info     0x00000000      0x34f
  *(.debug_info)
  .debug_info    0x00000000      0x141 main.o
  .debug_info    0x00000141       0x91 adc.o
  .debug_info    0x000001d2       0xc2 uart.o
+ .debug_info    0x00000294       0xbb motor.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev   0x00000000      0x1a1
+.debug_abbrev   0x00000000      0x224
  *(.debug_abbrev)
  .debug_abbrev  0x00000000       0xda main.o
  .debug_abbrev  0x000000da       0x52 adc.o
  .debug_abbrev  0x0000012c       0x75 uart.o
+ .debug_abbrev  0x000001a1       0x83 motor.o
 
-.debug_line     0x00000000      0x35f
+.debug_line     0x00000000      0x4a0
  *(.debug_line)
- .debug_line    0x00000000      0x200 main.o
- .debug_line    0x00000200       0x87 adc.o
- .debug_line    0x00000287       0xd8 uart.o
+ .debug_line    0x00000000      0x218 main.o
+ .debug_line    0x00000218       0x9f adc.o
+ .debug_line    0x000002b7       0xd8 uart.o
+ .debug_line    0x0000038f      0x111 motor.o
 
-.debug_frame    0x00000000       0x80
+.debug_frame    0x00000000       0xb0
  *(.debug_frame)
  .debug_frame   0x00000000       0x30 main.o
  .debug_frame   0x00000030       0x20 adc.o
  .debug_frame   0x00000050       0x30 uart.o
+ .debug_frame   0x00000080       0x30 motor.o
 
-.debug_str      0x00000000      0x100
+.debug_str      0x00000000      0x11e
  *(.debug_str)
  .debug_str     0x00000000       0xc7 main.o
                                 0x100 (size before relaxing)
@@ -385,12 +399,15 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a
                                  0xba (size before relaxing)
  .debug_str     0x000000dc       0x24 uart.o
                                  0xc9 (size before relaxing)
+ .debug_str     0x00000100       0x1e motor.o
+                                 0xc3 (size before relaxing)
 
-.debug_loc      0x00000000       0x9a
+.debug_loc      0x00000000       0xb8
  *(.debug_loc)
  .debug_loc     0x00000000       0x51 main.o
  .debug_loc     0x00000051       0x13 adc.o
  .debug_loc     0x00000064       0x36 uart.o
+ .debug_loc     0x0000009a       0x1e motor.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -449,7 +466,10 @@ get_ADC                                           adc.o
                                                   main.o
 main                                              main.o
                                                   c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4/crtm88p.o
+motor                                             motor.o
+                                                  main.o
 send_number                                       uart.o
                                                   main.o
 send_string                                       uart.o
                                                   main.o
+stop                                              motor.o

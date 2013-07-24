@@ -12,12 +12,14 @@ FUSES:
 
 /* Includes */
 #include <inttypes.h>
-#include <avr/delay.h>
+#include <util/delay.h>
 #include <string.h>
 #include <avr/interrupt.h>
 
 #include "board_def.h"
 #include "adc.h"
+#include "uart.h"
+#include "motor.h"
 
 /*Interrupts*/
 ISR(USART_RX_vect)
@@ -28,20 +30,16 @@ ISR(USART_RX_vect)
 	if(a == '2')
 	{
 		send_string("FRONT:");
-		get_ADC(GROUND_FRONT);
 		send_number(get_ADC(GROUND_FRONT));
 		send_string("BACK:");
-		get_ADC(GROUND_BACK);
 		send_number(get_ADC(GROUND_BACK));
 		send_string("POWER:");
-		get_ADC(POWER);
 		send_number(get_ADC(POWER));
 	}
 	sei();
 }
 
 /*Functions*/
-
 
 /*Global variables*/
 
@@ -66,14 +64,22 @@ int main(void)
 	ADMUX = (1<<REFS0)|(0<<REFS1)|(1<<ADLAR); /*AVCC*/
 	ADCSRA = (1<<ADEN);
 	
+	/*Timer0*/
+	TCCR0A = (1<<COM0A1)|(0<<COM0A0)|(1<<COM0B1)|(0<<COM0B0)|(1<<WGM01)|(1<<WGM00); /*non-inverting mode, Fast PWM*/
+	TCCR0B = (1<<CS01); /*clk/8*/
+	OCR0A = 0;
+	OCR0B = 0;
+	
 	/*Enable interrupts*/
 	sei();	
+	
+	motor(RIGHT, BACK, 200);
+	motor(LEFT, BACK, 200);
 	
 	/*Main loop*/
 	while(1)
 	{
 		LED_PORT ^= LED_BLUE;
-		//LED_PORT ^= LED_BLUE;	
 		_delay_ms(200);
 	}
 }

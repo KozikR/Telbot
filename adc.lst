@@ -36,20 +36,33 @@
   44 002a 8F7A      		andi r24,lo8(-81)
   45 002c 8093 7A00 		sts 122,r24
   46               	.LM7:
-  47 0030 8091 7900 		lds r24,121
-  48               	/* epilogue start */
-  49               	.LM8:
-  50 0034 0895      		ret
-  51               	.LFE2:
-  77               	.Letext0:
+  47 0030 8091 7A00 		lds r24,122
+  48 0034 8064      		ori r24,lo8(64)
+  49 0036 8093 7A00 		sts 122,r24
+  50               	.L3:
+  51               	.LM8:
+  52 003a 8091 7A00 		lds r24,122
+  53 003e 84FD      		sbrc r24,4
+  54 0040 00C0      		rjmp .L3
+  55               	.LM9:
+  56 0042 8091 7A00 		lds r24,122
+  57 0046 8F7A      		andi r24,lo8(-81)
+  58 0048 8093 7A00 		sts 122,r24
+  59               	.LM10:
+  60 004c 8091 7900 		lds r24,121
+  61               	/* epilogue start */
+  62               	.LM11:
+  63 0050 0895      		ret
+  64               	.LFE2:
+  90               	.Letext0:
 DEFINED SYMBOLS
                             *ABS*:00000000 adc.c
-C:\Users\RAFA~1\AppData\Local\Temp/cc6pICCP.s:2      *ABS*:0000003f __SREG__
-C:\Users\RAFA~1\AppData\Local\Temp/cc6pICCP.s:3      *ABS*:0000003e __SP_H__
-C:\Users\RAFA~1\AppData\Local\Temp/cc6pICCP.s:4      *ABS*:0000003d __SP_L__
-C:\Users\RAFA~1\AppData\Local\Temp/cc6pICCP.s:5      *ABS*:00000034 __CCP__
-C:\Users\RAFA~1\AppData\Local\Temp/cc6pICCP.s:6      *ABS*:00000000 __tmp_reg__
-C:\Users\RAFA~1\AppData\Local\Temp/cc6pICCP.s:7      *ABS*:00000001 __zero_reg__
-C:\Users\RAFA~1\AppData\Local\Temp/cc6pICCP.s:18     .text:00000000 get_ADC
+C:\Users\RAFA~1\AppData\Local\Temp/ccM9uiYh.s:2      *ABS*:0000003f __SREG__
+C:\Users\RAFA~1\AppData\Local\Temp/ccM9uiYh.s:3      *ABS*:0000003e __SP_H__
+C:\Users\RAFA~1\AppData\Local\Temp/ccM9uiYh.s:4      *ABS*:0000003d __SP_L__
+C:\Users\RAFA~1\AppData\Local\Temp/ccM9uiYh.s:5      *ABS*:00000034 __CCP__
+C:\Users\RAFA~1\AppData\Local\Temp/ccM9uiYh.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\RAFA~1\AppData\Local\Temp/ccM9uiYh.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\RAFA~1\AppData\Local\Temp/ccM9uiYh.s:18     .text:00000000 get_ADC
 
 NO UNDEFINED SYMBOLS
