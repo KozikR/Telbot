@@ -1,21 +1,21 @@
 #include "motor.h"
 #include "board_def.h"
 
-void motor(char side, char state, char pwm)
+void motor(unsigned char side,unsigned char state, unsigned char pwm)
 {
 	if(side == LEFT)
 	{
-		OCR0A = pwm;
+		OCR0B = pwm;
 		switch(state)
 		{
 			case STOP:
 				M_LEFT_PORT &= ~(M_LEFT_1 | M_LEFT_2);
 				break;
-			case FORWARD:
+			case BACK:
 				M_LEFT_PORT &= ~M_LEFT_1;
 				M_LEFT_PORT |= M_LEFT_2;
 				break;
-			case BACK:
+			case FORWARD:
 				M_LEFT_PORT |= M_LEFT_1;
 				M_LEFT_PORT &= ~M_LEFT_2;
 				break;
@@ -25,7 +25,7 @@ void motor(char side, char state, char pwm)
 	}
 	else if(side == RIGHT)
 	{
-		OCR0B = pwm;
+		OCR0A = pwm;
 		switch(state)
 		{
 			case STOP:

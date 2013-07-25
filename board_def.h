@@ -8,17 +8,17 @@ Board definitions
 #include <avr/io.h>
 /*LED*/
 
-#define LED_PORT 	PORTC
-#define LED_DDR		DDRC
-#define LED_GREEN	0x10
-#define	LED_RED		0x04
-#define	LED_BLUE	0x08
+#define LED_PORT 		PORTC
+#define LED_DDR			DDRC
+#define LED_GREEN		0x10
+#define	LED_RED			0x04
+#define	LED_BLUE		0x08
 
 /*Motors*/
-#define M_LEFT_PORT PORTB
-#define M_LEFT_DDR	DDRB
-#define M_LEFT_1	0x40
-#define M_LEFT_2	0x80
+#define M_LEFT_PORT 	PORTB
+#define M_LEFT_DDR		DDRB
+#define M_LEFT_1		0x40
+#define M_LEFT_2		0x80
 
 #define M_RIGHT_PORT_1	PORTB
 #define M_RIGHT_DDR_1	DDRB

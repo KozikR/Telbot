@@ -12,7 +12,7 @@ ADC
 #define	FORWARD		1
 #define	BACK		2
 
-void motor(char side, char state, char pwm);
+void motor(unsigned char side, unsigned char state, unsigned char pwm);
 /*Control motor state
 side: LEFT, RIGHT
 state: STOP, FORWARD, BACK

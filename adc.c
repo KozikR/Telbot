@@ -9,11 +9,10 @@ char get_ADC(char chanel)
 	ADMUX |= chanel; 
   
 	ADCSRA |= 1<<ADSC; 
-	while(ADCSRA & (1 << ADIF));  
-	ADCSRA &= ~((1 << ADSC) | (1 << ADIF));
-	ADCSRA |= 1<<ADSC; 
-	while(ADCSRA & (1 << ADIF));  
-	ADCSRA &= ~((1 << ADSC) | (1 << ADIF));
-	
+	while(ADCSRA & (1<<ADSC));
+	//ADCSRA &= ~((1 << ADSC) | (1 << ADIF));
+	//ADCSRA |= 1<<ADSC;
+	//while(ADCSRA & (1<<ADSC));	
+	//ADCSRA &= ~((1 << ADSC) | (1 << ADIF));
 	return ADCH;
 }

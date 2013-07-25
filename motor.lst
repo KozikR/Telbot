@@ -17,7 +17,7 @@
   25 0000 8230      		cpi r24,lo8(2)
   26 0002 01F4      		brne .L2
   27               	.LM3:
-  28 0004 47BD      		out 71-32,r20
+  28 0004 48BD      		out 72-32,r20
   29               	.LM4:
   30 0006 6130      		cpi r22,lo8(1)
   31 0008 01F0      		breq .L5
@@ -34,13 +34,13 @@
   42 0018 85B9      		out 37-32,r24
   43 001a 0895      		ret
   44               	.LVL2:
-  45               	.L5:
+  45               	.L11:
   46               	.LM6:
   47 001c 2E98      		cbi 37-32,6
   48               	.LM7:
   49 001e 2F9A      		sbi 37-32,7
   50 0020 0895      		ret
-  51               	.L11:
+  51               	.L5:
   52               	.LM8:
   53 0022 2E9A      		sbi 37-32,6
   54               	.LM9:
@@ -51,7 +51,7 @@
   59 0028 8130      		cpi r24,lo8(1)
   60 002a 01F4      		brne .L10
   61               	.LM11:
-  62 002c 48BD      		out 72-32,r20
+  62 002c 47BD      		out 71-32,r20
   63               	.LM12:
   64 002e 6130      		cpi r22,lo8(1)
   65 0030 01F0      		breq .L8
@@ -105,13 +105,13 @@
  148               	.Letext0:
 DEFINED SYMBOLS
                             *ABS*:00000000 motor.c
-C:\Users\RAFA~1\AppData\Local\Temp/ccSEuiCm.s:2      *ABS*:0000003f __SREG__
-C:\Users\RAFA~1\AppData\Local\Temp/ccSEuiCm.s:3      *ABS*:0000003e __SP_H__
-C:\Users\RAFA~1\AppData\Local\Temp/ccSEuiCm.s:4      *ABS*:0000003d __SP_L__
-C:\Users\RAFA~1\AppData\Local\Temp/ccSEuiCm.s:5      *ABS*:00000034 __CCP__
-C:\Users\RAFA~1\AppData\Local\Temp/ccSEuiCm.s:6      *ABS*:00000000 __tmp_reg__
-C:\Users\RAFA~1\AppData\Local\Temp/ccSEuiCm.s:7      *ABS*:00000001 __zero_reg__
-C:\Users\RAFA~1\AppData\Local\Temp/ccSEuiCm.s:18     .text:00000000 motor
-C:\Users\RAFA~1\AppData\Local\Temp/ccSEuiCm.s:94     .text:0000004e stop
+C:\Users\RAFA~1\AppData\Local\Temp/ccH9HZ7w.s:2      *ABS*:0000003f __SREG__
+C:\Users\RAFA~1\AppData\Local\Temp/ccH9HZ7w.s:3      *ABS*:0000003e __SP_H__
+C:\Users\RAFA~1\AppData\Local\Temp/ccH9HZ7w.s:4      *ABS*:0000003d __SP_L__
+C:\Users\RAFA~1\AppData\Local\Temp/ccH9HZ7w.s:5      *ABS*:00000034 __CCP__
+C:\Users\RAFA~1\AppData\Local\Temp/ccH9HZ7w.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\RAFA~1\AppData\Local\Temp/ccH9HZ7w.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\RAFA~1\AppData\Local\Temp/ccH9HZ7w.s:18     .text:00000000 motor
+C:\Users\RAFA~1\AppData\Local\Temp/ccH9HZ7w.s:94     .text:0000004e stop
 
 NO UNDEFINED SYMBOLS

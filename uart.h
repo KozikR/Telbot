@@ -8,7 +8,7 @@ UART
 
 #define ENTER 13
 
-void send_number(char n);
+void send_number(unsigned char n);
 /*Convert byte number to ASCII and send by UART*/
 
 void send_string(char* data);

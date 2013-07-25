@@ -3,7 +3,7 @@ UART
 *********************************/
 #include "uart.h"
 
-void send_number(char n)
+void send_number(unsigned char n)
 {
 	while ( !( UCSR0A & (1<<UDRE0)) );
 	UDR0 = n/100+'0';
