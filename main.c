@@ -25,8 +25,10 @@ FUSES:
 #define TRUE 1
 #define	FALSE 0
 
+#define FRAME_LENGHT 15
+
 /*Global variables*/
-volatile unsigned char command[10];
+volatile unsigned char command[FRAME_LENGHT+1];
 volatile unsigned char new_command = FALSE;
 volatile unsigned char current_byte = 0;
 
@@ -45,7 +47,7 @@ void send_sensor_data(void)
 ISR(USART_RX_vect)
 {
 /*Get data fram
-!up to 9 byte#
+!up to 14 byte#
 Command list:
 Led:
 LBS - set blue led
@@ -66,6 +68,11 @@ MXYZZZ - 	X: 	1 - RIGHT
 				1 - FORWARD
 				2- BACK
 			ZZZ:PWM value
+MBYZZZYZZZ - send state of RIGHT and LEFT motor
+MPXZZZ	-set ZZZ as PWM of X motor
+MPBZZZ	-set ZZZ as PWM of both motor
+MDYY	-set direction of motor RIGHT and LEFT
+
 Special:
 @ - stop motors
 ?-start motors
@@ -97,7 +104,7 @@ Special:
 			/*get data*/
 			command[current_byte]  = a;
 			current_byte++;
-			if(current_byte > 9)	current_byte = 0;
+			if(current_byte > (FRAME_LENGHT-1))	current_byte = 0;
 			break;
 	}
 	sei();
@@ -211,6 +218,30 @@ int main(void)
 					{
 						case 'S':
 							stop();
+							break;
+						case 'B':
+							motor(1, command[2]-'0', ((command[3]-'0')*100+(command[4]-'0')*10+command[5]-'0'));
+							motor(2, command[6]-'0', ((command[7]-'0')*100+(command[8]-'0')*10+command[9]-'0'));
+							break;
+						case 'P':
+							switch(command[2])
+							{
+								case (LEFT+'0'):
+									OCR0B =	((command[3]-'0')*100+(command[4]-'0')*10+command[5]-'0');
+										break;
+								case (RIGHT+'0'):
+									OCR0A = ((command[3]-'0')*100+(command[4]-'0')*10+command[5]-'0');
+									break;
+								case 'B':
+									OCR0A = ((command[3]-'0')*100+(command[4]-'0')*10+command[5]-'0');
+									OCR0B =	((command[3]-'0')*100+(command[4]-'0')*10+command[5]-'0');
+									break;
+								default:
+									break;
+							}
+							break;
+						case 'D':
+							motors(command[2]-'0', command[3]-'0');
 							break;
 						default:
 							motor(command[1]-'0', command[2]-'0', ((command[3]-'0')*100+(command[4]-'0')*10+command[5]-'0'));

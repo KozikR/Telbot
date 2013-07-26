@@ -1,0 +1,178 @@
+   1               		.file	"motor.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+  15               	.Ltext0:
+  16               	.global	motor
+  18               	motor:
+  19               	.LFB2:
+  20               	.LM1:
+  21               	.LVL0:
+  22               	/* prologue: function */
+  23               	/* frame size = 0 */
+  24               	.LM2:
+  25 0000 8230      		cpi r24,lo8(2)
+  26 0002 01F4      		brne .L2
+  27               	.LM3:
+  28 0004 48BD      		out 72-32,r20
+  29               	.LM4:
+  30 0006 6130      		cpi r22,lo8(1)
+  31 0008 01F0      		breq .L5
+  32 000a 6130      		cpi r22,lo8(1)
+  33 000c 00F0      		brlo .L4
+  34 000e 6230      		cpi r22,lo8(2)
+  35 0010 01F4      		brne .L10
+  36 0012 00C0      		rjmp .L11
+  37               	.L4:
+  38               	.LM5:
+  39 0014 85B1      		in r24,37-32
+  40               	.LVL1:
+  41 0016 8F73      		andi r24,lo8(63)
+  42 0018 85B9      		out 37-32,r24
+  43 001a 0895      		ret
+  44               	.LVL2:
+  45               	.L11:
+  46               	.LM6:
+  47 001c 2E98      		cbi 37-32,6
+  48               	.LM7:
+  49 001e 2F9A      		sbi 37-32,7
+  50 0020 0895      		ret
+  51               	.L5:
+  52               	.LM8:
+  53 0022 2E9A      		sbi 37-32,6
+  54               	.LM9:
+  55 0024 2F98      		cbi 37-32,7
+  56 0026 0895      		ret
+  57               	.L2:
+  58               	.LM10:
+  59 0028 8130      		cpi r24,lo8(1)
+  60 002a 01F4      		brne .L10
+  61               	.LM11:
+  62 002c 47BD      		out 71-32,r20
+  63               	.LM12:
+  64 002e 6130      		cpi r22,lo8(1)
+  65 0030 01F0      		breq .L8
+  66 0032 6130      		cpi r22,lo8(1)
+  67 0034 00F0      		brlo .L7
+  68 0036 6230      		cpi r22,lo8(2)
+  69 0038 01F4      		brne .L10
+  70 003a 00C0      		rjmp .L12
+  71               	.L7:
+  72               	.LM13:
+  73 003c 2898      		cbi 37-32,0
+  74               	.LM14:
+  75 003e 5F98      		cbi 43-32,7
+  76 0040 0895      		ret
+  77               	.L8:
+  78               	.LM15:
+  79 0042 2898      		cbi 37-32,0
+  80               	.LM16:
+  81 0044 5F9A      		sbi 43-32,7
+  82 0046 0895      		ret
+  83               	.L12:
+  84               	.LM17:
+  85 0048 289A      		sbi 37-32,0
+  86               	.LM18:
+  87 004a 5F98      		cbi 43-32,7
+  88               	.L10:
+  89 004c 0895      		ret
+  90               	.LFE2:
+  92               	.global	motors
+  94               	motors:
+  95               	.LFB3:
+  96               	.LM19:
+  97               	.LVL3:
+  98               	/* prologue: function */
+  99               	/* frame size = 0 */
+ 100 004e 982F      		mov r25,r24
+ 101               	.LM20:
+ 102 0050 6130      		cpi r22,lo8(1)
+ 103 0052 01F0      		breq .L16
+ 104               	.LVL4:
+ 105 0054 6130      		cpi r22,lo8(1)
+ 106 0056 00F0      		brlo .L15
+ 107 0058 6230      		cpi r22,lo8(2)
+ 108 005a 01F4      		brne .L14
+ 109 005c 00C0      		rjmp .L23
+ 110               	.L15:
+ 111               	.LM21:
+ 112 005e 85B1      		in r24,37-32
+ 113 0060 8F73      		andi r24,lo8(63)
+ 114 0062 85B9      		out 37-32,r24
+ 115 0064 00C0      		rjmp .L14
+ 116               	.LVL5:
+ 117               	.L23:
+ 118               	.LM22:
+ 119 0066 2E98      		cbi 37-32,6
+ 120               	.LM23:
+ 121 0068 2F9A      		sbi 37-32,7
+ 122 006a 00C0      		rjmp .L14
+ 123               	.L16:
+ 124               	.LM24:
+ 125 006c 2E9A      		sbi 37-32,6
+ 126               	.LM25:
+ 127 006e 2F98      		cbi 37-32,7
+ 128               	.L14:
+ 129               	.LM26:
+ 130 0070 9130      		cpi r25,lo8(1)
+ 131 0072 01F0      		breq .L20
+ 132 0074 9130      		cpi r25,lo8(1)
+ 133 0076 00F0      		brlo .L19
+ 134 0078 9230      		cpi r25,lo8(2)
+ 135 007a 01F4      		brne .L22
+ 136 007c 00C0      		rjmp .L24
+ 137               	.L19:
+ 138               	.LM27:
+ 139 007e 2898      		cbi 37-32,0
+ 140               	.LM28:
+ 141 0080 5F98      		cbi 43-32,7
+ 142 0082 0895      		ret
+ 143               	.L20:
+ 144               	.LM29:
+ 145 0084 2898      		cbi 37-32,0
+ 146               	.LM30:
+ 147 0086 5F9A      		sbi 43-32,7
+ 148 0088 0895      		ret
+ 149               	.L24:
+ 150               	.LM31:
+ 151 008a 289A      		sbi 37-32,0
+ 152               	.LM32:
+ 153 008c 5F98      		cbi 43-32,7
+ 154               	.L22:
+ 155 008e 0895      		ret
+ 156               	.LFE3:
+ 158               	.global	stop
+ 160               	stop:
+ 161               	.LFB4:
+ 162               	.LM33:
+ 163               	/* prologue: function */
+ 164               	/* frame size = 0 */
+ 165               	.LM34:
+ 166 0090 85B1      		in r24,37-32
+ 167 0092 8F73      		andi r24,lo8(63)
+ 168 0094 85B9      		out 37-32,r24
+ 169               	.LM35:
+ 170 0096 2898      		cbi 37-32,0
+ 171               	.LM36:
+ 172 0098 5F98      		cbi 43-32,7
+ 173               	/* epilogue start */
+ 174               	.LM37:
+ 175 009a 0895      		ret
+ 176               	.LFE4:
+ 218               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 motor.c
+C:\Users\RAFA~1\AppData\Local\Temp/ccU3rGCb.s:2      *ABS*:0000003f __SREG__
+C:\Users\RAFA~1\AppData\Local\Temp/ccU3rGCb.s:3      *ABS*:0000003e __SP_H__
+C:\Users\RAFA~1\AppData\Local\Temp/ccU3rGCb.s:4      *ABS*:0000003d __SP_L__
+C:\Users\RAFA~1\AppData\Local\Temp/ccU3rGCb.s:5      *ABS*:00000034 __CCP__
+C:\Users\RAFA~1\AppData\Local\Temp/ccU3rGCb.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\RAFA~1\AppData\Local\Temp/ccU3rGCb.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\RAFA~1\AppData\Local\Temp/ccU3rGCb.s:18     .text:00000000 motor
+C:\Users\RAFA~1\AppData\Local\Temp/ccU3rGCb.s:94     .text:0000004e motors
+C:\Users\RAFA~1\AppData\Local\Temp/ccU3rGCb.s:160    .text:00000090 stop
+
+NO UNDEFINED SYMBOLS

@@ -1,27 +1,85 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ControlPanel" >
-
-    <Button
-        android:id="@+id/button_send"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:layout_marginBottom="65dp"
-        android:layout_marginLeft="14dp"
-        android:text="@string/button_led_blue" />
 
     <TextView
         android:id="@+id/status_panel"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
         android:text="@string/app_name"
         android:textAppearance="?android:attr/textAppearanceMedium" />
+    
+    <TableLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingLeft="20dip"
+        android:paddingRight="20dip"
+        android:stretchColumns="*">
+        
+        <TableRow>
+        	<ImageButton
+		        android:id="@+id/control_rotate_left"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:src="@drawable/images_rotate_left" />
+        	<ImageButton
+		        android:id="@+id/control_forward"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:src="@drawable/navigation_collapse" />
+            <ImageButton
+		        android:id="@+id/control_rotate_right"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:src="@drawable/images_rotate_right" />     
+		</TableRow>
+        <TableRow>
+	        <ImageButton
+		        android:id="@+id/control_left"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:src="@drawable/navigation_previous_item" />
+	        <ImageButton
+		        android:id="@+id/control_stop"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:src="@drawable/av_pause" />
+	       <ImageButton
+		        android:id="@+id/control_right"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:contentDescription="a"
+		        android:src="@drawable/navigation_next_item" /> 
+        </TableRow>
+        <TableRow>
+        	<Button
+		        android:id="@+id/button_led_blue"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/button_led_blue" />
+            <ImageButton
+		        android:id="@+id/control_back"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:src="@drawable/navigation_expand" />  
+		    <Button
+		        android:id="@+id/button_led_red"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/button_led_red" />          
+        </TableRow>        
+    </TableLayout>
 
-</RelativeLayout>
+    <SeekBar
+        android:id="@+id/control_speed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:max="100"
+        android:paddingTop="30dip"/>
+    
+</LinearLayout>

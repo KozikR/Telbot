@@ -8,17 +8,22 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.DragEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnDragListener;
 import android.view.Window;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,6 +57,8 @@ public class ControlPanel extends Activity {
     //private ListView mConversationView;
     //private EditText mOutEditText;
     private Button mSendButton;
+    private ImageButton mControlButton;
+    private SeekBar mControlSeekBar;
 
     // Name of the connected device
     private String mConnectedDeviceName = null;
@@ -127,27 +134,96 @@ public class ControlPanel extends Activity {
 
     private void setupChat() {
         Log.d(TAG, "setupChat()");
-
-//        // Initialize the array adapter for the conversation thread
-//        mConversationArrayAdapter = new ArrayAdapter<String>(this, R.layout.message);
-//        mConversationView = (ListView) findViewById(R.id.in);
-//        mConversationView.setAdapter(mConversationArrayAdapter);
-//
-//        // Initialize the compose field with a listener for the return key
-//        mOutEditText = (EditText) findViewById(R.id.edit_text_out);
-//        mOutEditText.setOnEditorActionListener(mWriteListener);
-//
-//        // Initialize the send button with a listener that for click events
-        mSendButton = (Button) findViewById(R.id.button_send);
+        mSendButton = (Button) findViewById(R.id.button_led_blue);
         mSendButton.setOnClickListener(new OnClickListener() {
         	@Override
             public void onClick(View v) {
-                // Send a message using content of the edit text widget
-//                TextView view = (TextView) findViewById(R.id.edit_text_out);
-//                String message = view.getText().toString();
                 sendMessage("!LBT#");
             }
         });
+        mSendButton = (Button) findViewById(R.id.button_led_red);
+        mSendButton.setOnClickListener(new OnClickListener() {
+        	@Override
+            public void onClick(View v) {
+                sendMessage("!LRT#");
+            }
+        });
+        
+        mControlButton = (ImageButton) findViewById(R.id.control_stop);
+        mControlButton.setOnClickListener(new OnClickListener() {
+        	@Override
+            public void onClick(View v) {
+                sendMessage("!MS#");
+            }
+        });
+        mControlButton = (ImageButton) findViewById(R.id.control_forward);
+        mControlButton.setOnClickListener(new OnClickListener() {
+        	@Override
+            public void onClick(View v) {
+                sendMessage("!MD11#");
+            }
+        });
+        mControlButton = (ImageButton) findViewById(R.id.control_back);
+        mControlButton.setOnClickListener(new OnClickListener() {
+        	@Override
+            public void onClick(View v) {
+                sendMessage("!MD22#");
+            }
+        });
+        mControlButton = (ImageButton) findViewById(R.id.control_left);
+        mControlButton.setOnClickListener(new OnClickListener() {
+        	@Override
+            public void onClick(View v) {
+                sendMessage("!MD01#");
+            }
+        });
+        mControlButton = (ImageButton) findViewById(R.id.control_right);
+        mControlButton.setOnClickListener(new OnClickListener() {
+        	@Override
+            public void onClick(View v) {
+                sendMessage("!MD10#");
+            }
+        });
+        mControlButton = (ImageButton) findViewById(R.id.control_rotate_left);
+        mControlButton.setOnClickListener(new OnClickListener() {
+        	@Override
+            public void onClick(View v) {
+                sendMessage("!MD21#");
+            }
+        });
+        mControlButton = (ImageButton) findViewById(R.id.control_rotate_right);
+        mControlButton.setOnClickListener(new OnClickListener() {
+        	@Override
+            public void onClick(View v) {
+                sendMessage("!MD12#");
+            }
+        });
+        mControlSeekBar = (SeekBar)	findViewById(R.id.control_speed);
+        mControlSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+        	//int progressChanged = 0;
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress,
+					boolean fromUser) {
+				progress+=40;
+				if(progress < 100)	sendMessage("!MPB0"+Integer.toString(progress)+"#");
+				else				sendMessage("!MPB"+Integer.toString(progress)+"#");
+				//Log.e(TAG, "!MPB0"+Integer.toString(progress)+"#");
+			}
+
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {
+				// TODO Auto-generated method stub
+				
+			}
+        	
+        });
+       
 
         // Initialize the BluetoothChatService to perform bluetooth connections
         mChatService = new BluetoothChatService(this, mHandler);

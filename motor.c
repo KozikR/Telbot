@@ -46,11 +46,45 @@ void motor(unsigned char side,unsigned char state, unsigned char pwm)
 	
 	}
 }
+void motors(unsigned char state_right, unsigned char state_left)
+{
+	switch(state_left)
+	{
+		case STOP:
+			M_LEFT_PORT &= ~(M_LEFT_1 | M_LEFT_2);
+			break;
+		case BACK:
+			M_LEFT_PORT &= ~M_LEFT_1;
+			M_LEFT_PORT |= M_LEFT_2;
+			break;
+		case FORWARD:
+			M_LEFT_PORT |= M_LEFT_1;
+			M_LEFT_PORT &= ~M_LEFT_2;
+			break;
+		default:
+			break;
+	}
+	switch(state_right)
+	{
+		case STOP:
+			M_RIGHT_PORT_1 &= ~M_RIGHT_1;
+			M_RIGHT_PORT_2 &= ~M_RIGHT_2;
+			break;
+		case FORWARD:
+			M_RIGHT_PORT_1 &= ~M_RIGHT_1;
+			M_RIGHT_PORT_2 |= M_RIGHT_2;
+			break;
+		case BACK:
+			M_RIGHT_PORT_1 |= M_RIGHT_1;
+			M_RIGHT_PORT_2 &= ~M_RIGHT_2;
+			break;
+		default:
+			break;
+	}
+}
 
 void stop(void)
 {
-	OCR0A = 0;
-	OCR0B = 0;
 	M_LEFT_PORT &= ~(M_LEFT_1 | M_LEFT_2);
 	M_RIGHT_PORT_1 &= ~M_RIGHT_1;
 	M_RIGHT_PORT_2 &= ~M_RIGHT_2;

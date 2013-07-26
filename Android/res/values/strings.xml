@@ -17,5 +17,6 @@
     <string name="none_found">none found</string>
     <string name="bt_not_enabled_leaving">bt not enabled leaving</string>
     <string name="button_led_blue">blue led</string>
+    <string name="button_led_red">red led</string>
 
 </resources>

@@ -18,6 +18,8 @@ side: LEFT, RIGHT
 state: STOP, FORWARD, BACK
 pwm: 0 - 255*/
 
+void motors(unsigned char state_right, unsigned char state_left);
+
 void stop(void);
 /*stop all motors*/
 
