@@ -34,5 +34,9 @@
     <string name="OK">OK</string>
     <string name="not_implement_yet">Available in the next release</string>
     <string name="akk">Voltage: %1$,.1f V</string>
+    <string name="preference_file_key">tk.kozik.telbot.pref</string>
+    <string name="saved_motor_min">saved_motor_min</string>
+    <string name="saved_motor_max">saved_motor_max</string>
+    <string name="saved_akk">saved_akk</string>
 
 </resources>

@@ -4,7 +4,10 @@ import tk.kozik.telbot.R.id;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -57,6 +60,7 @@ public class ControlPanel extends Activity {
     private Intent serverIntent;
     private Intent setIntent;
 
+    private SharedPreferences sharedPref;
     // Name of the connected device
     private String mConnectedDeviceName = null;
     private StringBuffer mOutStringBuffer;
@@ -143,6 +147,11 @@ public class ControlPanel extends Activity {
     private void setupChat() {
         Log.d(TAG, "setupChat()");
         //Menu
+        sharedPref = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        calibriation = sharedPref.getFloat(getResources().getString(R.string.saved_akk), (float) 0.06637298);
+        min_motor_pow = sharedPref.getInt(getResources().getString(R.string.saved_motor_min), 40);
+        
+        
         mSendButton = (Button) findViewById(R.id.menu_connect);
         serverIntent = new Intent(this, DeviceListActivity.class);
         mSendButton.setOnClickListener(new OnClickListener() {
@@ -240,6 +249,7 @@ public class ControlPanel extends Activity {
             }
         });
         mControlSeekBar = (SeekBar)	findViewById(R.id.control_speed);
+        mControlSeekBar.setMax(sharedPref.getInt(getResources().getString(R.string.saved_motor_max), 100));
         mControlSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {        
         	@Override
 			public void onProgressChanged(SeekBar seekBar, int progress,
@@ -442,10 +452,19 @@ public class ControlPanel extends Activity {
         case REQUEST_SET:
         	if (resultCode == Activity.RESULT_OK)
         	{
+        		Editor edit = sharedPref.edit();
+        		
         		min_motor_pow = data.getExtras().getInt(SetActivity.MIN_VALUE);
+        		edit.putInt(getResources().getString(R.string.saved_motor_min), min_motor_pow);
+        		
         		SeekBar m_seekBar = (SeekBar) findViewById(R.id.control_speed);
         		m_seekBar.setMax(data.getExtras().getInt(SetActivity.MAX_VALUE)-min_motor_pow);
+        		edit.putInt(getResources().getString(R.string.saved_motor_max), m_seekBar.getMax());
+        		
         		calibriation = (data.getExtras().getInt(SetActivity.AKK_VOL)/10.0)/(1.0*power);		
+        		edit.putFloat(getResources().getString(R.string.saved_akk), (float) calibriation);
+        		
+        		edit.commit();
         		
         	}
         	else
