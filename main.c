@@ -27,20 +27,48 @@ FUSES:
 
 #define FRAME_LENGHT 15
 
+#define SAFETY_MARGIN 30
+
 /*Global variables*/
 volatile unsigned char command[FRAME_LENGHT+1];
 volatile unsigned char new_command = FALSE;
 volatile unsigned char current_byte = 0;
 
+volatile unsigned char current_sensor = 0;
+
+
 /*Functions*/
-void send_sensor_data(void)
+void send_sensor_data(char sesnor_number)
 {
-	send_string("FRONT:");
-	send_number(get_ADC(GROUND_FRONT));
-	send_string("BACK:");
-	send_number(get_ADC(GROUND_BACK));
-	send_string("POWER:");
-	send_number(get_ADC(POWER));
+	unsigned char data = 0;
+	while ( !( UCSR0A & (1<<UDRE0)) );
+	switch(sesnor_number)
+	{
+		case 0:
+			data = get_ADC(POWER);
+			UDR0 = 'P';
+			break;
+		case 1:
+			data = get_ADC(GROUND_FRONT);
+			UDR0 = 'F';
+			break;
+		case 2:
+			data = get_ADC(GROUND_BACK);
+			UDR0 = 'B';
+			break;
+		default:
+			break;
+	}
+
+	while ( !( UCSR0A & (1<<UDRE0)) );
+	UDR0 = data/100+'0';
+	while ( !( UCSR0A & (1<<UDRE0)) );
+	UDR0 = (data%100)/10+'0';
+	while ( !( UCSR0A & (1<<UDRE0)) );
+	UDR0 = (data%10)+'0';
+	
+	while ( !( UCSR0A & (1<<UDRE0)) );
+	UDR0 = ENTER;
 }
 
 /*Interrupts*/
@@ -72,6 +100,8 @@ MBYZZZYZZZ - send state of RIGHT and LEFT motor
 MPXZZZ	-set ZZZ as PWM of X motor
 MPBZZZ	-set ZZZ as PWM of both motor
 MDYY	-set direction of motor RIGHT and LEFT
+SS - set safety mode
+SR - stop safety mode
 
 Special:
 @ - stop motors
@@ -110,10 +140,13 @@ Special:
 	sei();
 }
 
-
-
 int main(void)
 {
+	/*Variables*/
+	unsigned char safety_mode = 0;
+	unsigned char last_front = 0;
+	unsigned char last_back = 0;
+	
 	/*Init*/
 	/*Configure ports*/
 	LED_DDR |= LED_BLUE | LED_RED | LED_GREEN;
@@ -130,9 +163,10 @@ int main(void)
 	UCSR0C = (1<<UCSZ01)|(1<<UCSZ00);	/*8-bit*/
 	
 	/*ADC*/
-	ADMUX = (1<<REFS0)|(0<<REFS1)|(1<<ADLAR); /*AVCC*/
+	ADMUX = (1<<REFS0)|(0<<REFS1)|(1<<ADLAR)|POWER; /*AVCC*/
 	ADCSRA = (1<<ADEN);
 	ADCSRA |= (1<<ADSC); 
+	
 	
 	/*Timer0*/
 	TCCR0A = (1<<COM0A1)|(0<<COM0A0)|(1<<COM0B1)|(0<<COM0B0)|(1<<WGM01)|(1<<WGM00); /*non-inverting mode, Fast PWM*/
@@ -151,7 +185,9 @@ int main(void)
 	//M_RIGHT_PORT_2 |= M_RIGHT_2;
 	
 	/*Main loop*/
-	
+	int time = 0;
+	int time2 = 0;
+	char sensor_number = 0;
 	while(1)
 	{
 		if(new_command)
@@ -248,6 +284,19 @@ int main(void)
 							break;
 					}
 					break;
+				case 'S':
+					switch(command[1])
+					{
+						case 'S':
+							safety_mode = 1;
+							break;
+						case 'R':
+							safety_mode = 0;
+							break;
+						default:
+							break;
+					}
+					break;
 				default:
 					break;
 			}
@@ -255,5 +304,60 @@ int main(void)
 			new_command = FALSE; /*clear flag*/
 			
 		}
+		time++;
+		if(time == 10000)
+		{
+			time = 0;
+			time2++;
+			if(time2 > 2)
+			{
+				unsigned char data = 0;
+				while (!( UCSR0A & (1<<UDRE0)));
+				switch(sensor_number)
+				{
+					case 0:
+						data = get_ADC(POWER);
+						UDR0 = 'P';
+						break;
+					case 1:
+						data = get_ADC(GROUND_FRONT);
+						if((data > last_front + SAFETY_MARGIN || data < last_front - SAFETY_MARGIN) && safety_mode == 1)
+						{
+							UDR0 = 'G';
+							stop();
+						}
+						last_front = data;
+						UDR0 = 'F';
+						break;
+					case 2:
+						data = get_ADC(GROUND_BACK);
+						if((data > last_back + SAFETY_MARGIN || data < last_back - SAFETY_MARGIN) && safety_mode == 1)
+						{
+							UDR0 = 'C';
+							stop();
+						}
+						last_back = data;
+						UDR0 = 'B';
+						break;
+					default:
+						break;
+				}
+
+				while ( !( UCSR0A & (1<<UDRE0)) );
+				UDR0 = data/100+'0';
+				while ( !( UCSR0A & (1<<UDRE0)) );
+				UDR0 = (data%100)/10+'0';
+				while ( !( UCSR0A & (1<<UDRE0)) );
+				UDR0 = (data%10)+'0';
+				
+				while ( !( UCSR0A & (1<<UDRE0)) );
+				UDR0 = ENTER;
+				sensor_number++;
+				if(sensor_number >= 3)	sensor_number = 0;
+				time2 = 0;
+			}
+		}
+		
+		
 	}
 }

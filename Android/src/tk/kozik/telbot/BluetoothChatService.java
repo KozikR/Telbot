@@ -1,4 +1,4 @@
-package com.example.telbot;
+package tk.kozik.telbot;
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -1,5 +1,6 @@
-package com.example.telbot;
+package tk.kozik.telbot;
 
+import tk.kozik.telbot.R.id;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -8,29 +9,20 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import android.view.DragEvent;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnDragListener;
-import android.view.Window;
-import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
-import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
-
 /**
- * This is the main Activity that displays the current chat session.
+ * Manual control activity
  */
 public class ControlPanel extends Activity {
     // Debugging
@@ -51,26 +43,39 @@ public class ControlPanel extends Activity {
     // Intent request codes
     private static final int REQUEST_CONNECT_DEVICE = 1;
     private static final int REQUEST_ENABLE_BT = 2;
+    private static final int REQUEST_SET = 3;
 
     // Layout Views
     private TextView mTitle;
-    //private ListView mConversationView;
-    //private EditText mOutEditText;
+    private TextView mPower;
     private Button mSendButton;
     private ImageButton mControlButton;
     private SeekBar mControlSeekBar;
+    private ProgressBar front_bar;
+    private ProgressBar back_bar;
+    private CheckBox m_check_box;
+    private Intent serverIntent;
+    private Intent setIntent;
 
     // Name of the connected device
     private String mConnectedDeviceName = null;
-    // Array adapter for the conversation thread
-   // private ArrayAdapter<String> mConversationArrayAdapter;
-    // String buffer for outgoing messages
     private StringBuffer mOutStringBuffer;
     // Local Bluetooth adapter
     private BluetoothAdapter mBluetoothAdapter = null;
     // Member object for the chat services
     private BluetoothChatService mChatService = null;
-
+    
+    //Sensors data
+    double calibriation = 4.52/68.1; 
+    int power = 0;
+    int front = 0;
+    int back = 0;
+    
+    int min_motor_pow = 40;
+    
+    //Sensor data buff
+    byte[] sensor_data_buff = new byte[10]; 
+    int current_pos = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -78,13 +83,16 @@ public class ControlPanel extends Activity {
         if(D) Log.e(TAG, "+++ ON CREATE +++");
 
         // Set up the window layout
-        //requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         setContentView(R.layout.activity_control_panel);
-        //getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_title);
-
+        
         // Set up the status panel
         mTitle = (TextView) findViewById(R.id.status_panel);
         mTitle.setText(R.string.app_name);
+        mPower = (TextView) findViewById(R.id.akk_panel);
+        mPower.setText(String.format(getResources().getString(R.string.akk_voltage), 3.3*calibriation*power/255));
+        
+        front_bar = (ProgressBar) findViewById(R.id.front_bar);
+        back_bar = (ProgressBar) findViewById(R.id.back_bar);
         
         // Get local Bluetooth adapter
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -134,6 +142,39 @@ public class ControlPanel extends Activity {
 
     private void setupChat() {
         Log.d(TAG, "setupChat()");
+        //Menu
+        mSendButton = (Button) findViewById(R.id.menu_connect);
+        serverIntent = new Intent(this, DeviceListActivity.class);
+        mSendButton.setOnClickListener(new OnClickListener() {
+        	@Override
+            public void onClick(View v) {        		 
+                startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
+            }
+        });
+        mSendButton = (Button) findViewById(R.id.menu_settings);
+        setIntent = new Intent(this, SetActivity.class);
+        mSendButton.setOnClickListener(new OnClickListener() {
+        	@Override
+            public void onClick(View v) {        	
+        		SeekBar m_seekBar= (SeekBar) findViewById(id.control_speed);
+        		setIntent.putExtra(SetActivity.MAX_VALUE, m_seekBar.getMax()+min_motor_pow);
+        		setIntent.putExtra(SetActivity.MIN_VALUE, min_motor_pow);
+        		Double temp = calibriation*power*10;
+        		Log.e(TAG, Integer.toString(temp.intValue()));
+        		setIntent.putExtra(SetActivity.AKK_VOL,   temp.intValue());
+                startActivityForResult(setIntent, REQUEST_SET);
+            }
+        });
+        mSendButton = (Button) findViewById(R.id.menu_face);
+        mSendButton.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View arg0) {
+				Toast.makeText(getApplicationContext(), R.string.not_implement_yet, Toast.LENGTH_SHORT).show();		
+			}
+        	
+        });
+        //Motors control
         mSendButton = (Button) findViewById(R.id.button_led_blue);
         mSendButton.setOnClickListener(new OnClickListener() {
         	@Override
@@ -199,29 +240,37 @@ public class ControlPanel extends Activity {
             }
         });
         mControlSeekBar = (SeekBar)	findViewById(R.id.control_speed);
-        mControlSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
-        	//int progressChanged = 0;
-			@Override
+        mControlSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {        
+        	@Override
 			public void onProgressChanged(SeekBar seekBar, int progress,
 					boolean fromUser) {
-				progress+=40;
-				if(progress < 100)	sendMessage("!MPB0"+Integer.toString(progress)+"#");
+				progress+=min_motor_pow;
+				if(progress < 10) 	sendMessage("!MPB00"+Integer.toString(progress)+"#");
+				else if(progress < 100)	sendMessage("!MPB0"+Integer.toString(progress)+"#");
 				else				sendMessage("!MPB"+Integer.toString(progress)+"#");
-				//Log.e(TAG, "!MPB0"+Integer.toString(progress)+"#");
-			}
+        	}
 
 			@Override
-			public void onStartTrackingTouch(SeekBar seekBar) {
-				// TODO Auto-generated method stub
-				
-			}
+			public void onStartTrackingTouch(SeekBar seekBar) {}
 
 			@Override
-			public void onStopTrackingTouch(SeekBar seekBar) {
-				// TODO Auto-generated method stub
+			public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
+        
+        m_check_box = (CheckBox) findViewById(R.id.checkBox_safe_mode);
+        m_check_box.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				if (((CheckBox) v).isChecked()) {
+					sendMessage("!SS#");
+				}
+				else
+				{
+					sendMessage("!SR#");
+				}
 				
-			}
-        	
+			}        	
         });
        
 
@@ -269,7 +318,7 @@ public class ControlPanel extends Activity {
     private void sendMessage(String message) {
         // Check that we're actually connected before trying anything
         if (mChatService.getState() != BluetoothChatService.STATE_CONNECTED) {
-            Toast.makeText(this, R.string.not_connected, Toast.LENGTH_SHORT).show();
+           // Toast.makeText(this, R.string.not_connected, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -285,20 +334,6 @@ public class ControlPanel extends Activity {
         }
     }
 
-//    // The action listener for the EditText widget, to listen for the return key
-//    private TextView.OnEditorActionListener mWriteListener =
-//        new TextView.OnEditorActionListener() {
-//        public boolean onEditorAction(TextView view, int actionId, KeyEvent event) {
-//            // If the action is a key-up event on the return key, send the message
-//            if (actionId == EditorInfo.IME_NULL && event.getAction() == KeyEvent.ACTION_UP) {
-//                String message = view.getText().toString();
-//                sendMessage(message);
-//            }
-//            if(D) Log.i(TAG, "END onEditorAction");
-//            return true;
-//        }
-//    };
-
     // The Handler that gets information back from the BluetoothChatService
     private final Handler mHandler = new Handler() {
         @Override
@@ -310,7 +345,6 @@ public class ControlPanel extends Activity {
                 case BluetoothChatService.STATE_CONNECTED:
                     mTitle.setText(R.string.title_connected_to);
                     mTitle.append(mConnectedDeviceName);
-                    //mConversationArrayAdapter.clear();
                     break;
                 case BluetoothChatService.STATE_CONNECTING:
                     mTitle.setText(R.string.title_connecting);
@@ -322,16 +356,47 @@ public class ControlPanel extends Activity {
                 }
                 break;
             case MESSAGE_WRITE:
-               // byte[] writeBuf = (byte[]) msg.obj;
-                // construct a string from the buffer
-                //String writeMessage = new String(writeBuf);
-                //mConversationArrayAdapter.add("Me:  " + writeMessage);
-                break;
+               break;
             case MESSAGE_READ:
-                //byte[] readBuf = (byte[]) msg.obj;
-                // construct a string from the valid bytes in the buffer
-                //String readMessage = new String(readBuf, 0, msg.arg1);
-                //mConversationArrayAdapter.add(mConnectedDeviceName+":  " + readMessage);
+                byte[] readBuf = (byte[]) msg.obj;
+                if(readBuf[0] == 'G')
+                {
+                    Toast.makeText(getApplicationContext(), R.string.front_edge_not, Toast.LENGTH_SHORT).show();
+                }
+                else if(readBuf[0] == 'C')
+                {
+                	Toast.makeText(getApplicationContext(), R.string.back_edge_not, Toast.LENGTH_SHORT).show();
+                }
+                else if(readBuf[0] == 'P' || readBuf[0] == 'F' || readBuf[0] == 'B')
+                {
+                	current_pos = 0;
+                }
+                for(int i = 0; i < msg.arg1; i++ )
+                {
+                	sensor_data_buff[current_pos] = readBuf[i];
+                	current_pos++;
+                	if(current_pos > 9) current_pos = 0;
+                }
+                if(current_pos == 5)
+                {
+                    int temp = (sensor_data_buff[1]-'0')*100+(sensor_data_buff[2]-'0')*10+sensor_data_buff[3]-'0';
+                	switch(sensor_data_buff[0])
+                	{
+                	case 'P':
+                		/*TODO calculate the aferage value of power from last ten value*/
+                		power = temp;
+                		mPower.setText(String.format(getResources().getString(R.string.akk_voltage), calibriation*power));
+                		break;
+                	case 'F':
+                		front = temp;
+                		front_bar.setProgress((int) 100*front/255);
+                		break;
+                	case 'B':
+                		back = temp;
+                		back_bar.setProgress((int) 100*back/255);
+                		break;
+                	}
+                }
                 break;
             case MESSAGE_DEVICE_NAME:
                 // save the connected device's name
@@ -373,29 +438,23 @@ public class ControlPanel extends Activity {
                 Toast.makeText(this, R.string.bt_not_enabled_leaving, Toast.LENGTH_SHORT).show();
                 finish();
             }
+            break;
+        case REQUEST_SET:
+        	if (resultCode == Activity.RESULT_OK)
+        	{
+        		min_motor_pow = data.getExtras().getInt(SetActivity.MIN_VALUE);
+        		SeekBar m_seekBar = (SeekBar) findViewById(R.id.control_speed);
+        		m_seekBar.setMax(data.getExtras().getInt(SetActivity.MAX_VALUE)-min_motor_pow);
+        		calibriation = (data.getExtras().getInt(SetActivity.AKK_VOL)/10.0)/(1.0*power);		
+        		
+        	}
+        	else
+        	{
+        		
+        	}
+        	break;
+        default:
+        	break;
         }
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.activity_control_panel, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-        case R.id.menu_connect:
-            // Launch the DeviceListActivity to see devices and do scan
-            Intent serverIntent = new Intent(this, DeviceListActivity.class);
-            startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
-            return true;
-        case R.id.menu_settings:
-            
-            return true;
-        }
-        return false;
-    }
-
 }

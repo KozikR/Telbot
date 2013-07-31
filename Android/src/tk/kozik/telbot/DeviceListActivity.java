@@ -1,4 +1,4 @@
-package com.example.telbot;
+package tk.kozik.telbot;
 
 import java.util.Set;
 
@@ -12,14 +12,14 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
 
 /**
  * This Activity appears as a dialog. It lists any paired devices and

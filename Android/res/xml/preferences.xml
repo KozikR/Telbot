@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+	<PreferenceCategory android:title="@string/preference_category">	
+		<EditTextPreference
+		                android:key="motor_min_power"
+		                android:title="@string/motor_min_power"
+		                android:summary="@string/motor_power_type"
+		                android:dialogTitle="@string/motor_min_power"
+		                android:defaultValue="40"/>
+		<EditTextPreference
+		                android:key="motor_max_power"
+		                android:title="@string/motor_max_power"
+		                android:summary="@string/motor_power_type"
+		                android:dialogTitle="@string/motor_max_power" 
+		                android:defaultValue="140"/>
+	
+	</PreferenceCategory>   
+</PreferenceScreen>

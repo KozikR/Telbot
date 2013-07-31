@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="10dip"
+    android:paddingRight="10dip" >
+
+    <TextView
+        android:id="@+id/textView_akk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/akk"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <SeekBar
+        android:id="@+id/seekBar_akk"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="100" />
+    
+    <TextView
+        android:id="@+id/textView_motor_min"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/motor_min_power"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <SeekBar
+        android:id="@+id/seekBar_motor_min"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="255" />
+
+    <TextView
+        android:id="@+id/textView_motor_max"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/motor_max_power"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <SeekBar
+        android:id="@+id/seekBar_motor_max"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="255" 
+        android:paddingBottom="15dip" />
+
+    <Button
+        android:id="@+id/button_ok"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/OK" />
+
+</LinearLayout>

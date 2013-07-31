@@ -6,7 +6,7 @@
     <string name="menu_connect">Connect</string>
     <string name="not_connected">not connected</string>
     <string name="title_connected_to">Connected to </string>
-    <string name="title_connecting">Connecting...</string>
+    <string name="title_connecting">Connecting&#8230;</string>
     <string name="title_not_connected">Not connected</string>
     <string name="title_paired_devices">Paired devices</string>
     <string name="title_other_devices">other devices</string>
@@ -18,5 +18,21 @@
     <string name="bt_not_enabled_leaving">bt not enabled leaving</string>
     <string name="button_led_blue">blue led</string>
     <string name="button_led_red">red led</string>
+    <string name="menu_face">Face</string>
+    <string name="akk_voltage">Akk: %1$,.1f V</string>
+    <string name="motor_power">Motor power</string>
+    <string name="ground_sensor">Ground sensors</string>
+    <string name="front">front</string>
+    <string name="back">back</string>
+    <string name="safe_mode">Safe mode - edge detection</string>
+    <string name="front_edge_not">Front edge detected</string>
+    <string name="back_edge_not">Back edge detected</string>
+    <string name="preference_category">Preferences</string>
+    <string name="motor_min_power">Motor min power: %d</string>
+    <string name="motor_max_power">Motor max power: %d</string>
+    <string name="motor_power_type">Integer from 0 to 255</string>
+    <string name="OK">OK</string>
+    <string name="not_implement_yet">Available in the next release</string>
+    <string name="akk">Voltage: %1$,.1f V</string>
 
 </resources>
